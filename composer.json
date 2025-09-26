@@ -10,7 +10,7 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
+    "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
     "mezzio/mezzio-laminasviewrenderer": "^2.4",
     "mezzio/mezzio-twigrenderer": "^2.9",
     "laminas/laminas-servicemanager": "^3.3"
@@ -19,5 +19,8 @@
     "psr-4": {
       "JhseLabs\\MezzioTwigViewHelper\\": "src/"
     }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^2.1"
   }
 }
