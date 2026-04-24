@@ -27,9 +27,11 @@ declare(strict_types=1);
 
 namespace JhseLabs\MezzioTwigViewHelper\View\Twig;
 
-use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 use Laminas\View\HelperPluginManager;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\RendererInterface;
+use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\TwigFunction;
 
@@ -48,6 +50,12 @@ class EnvironmentExtensionDelegatorFactory implements DelegatorFactoryInterface
 
         /** @var HelperPluginManager $helperPluginManager */
         $helperPluginManager = $container->get(HelperPluginManager::class);
+
+        /** @var RendererInterface $renderer */
+        $renderer = $container->get(PhpRenderer::class);
+        $renderer->setHelperPluginManager($helperPluginManager);
+
+        $helperPluginManager->setRenderer($renderer);
 
         // delegate all undefined twig function calls to getViewHelper method of BridgeExtension
         $environment->registerUndefinedFunctionCallback(
