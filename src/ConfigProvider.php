@@ -27,6 +27,9 @@ declare(strict_types=1);
 
 namespace JhseLabs\MezzioTwigViewHelper;
 
+use Laminas\ServiceManager\Factory\InvokableFactory;
+use Laminas\View\Renderer\PhpRenderer;
+
 class ConfigProvider
 {
     public function __invoke(): array
@@ -43,6 +46,9 @@ class ConfigProvider
                 \Twig\Environment::class => [
                     View\Twig\EnvironmentExtensionDelegatorFactory::class,
                 ],
+            ],
+            'factories'  => [
+                PhpRenderer::class              => InvokableFactory::class,
             ],
         ];
     }
