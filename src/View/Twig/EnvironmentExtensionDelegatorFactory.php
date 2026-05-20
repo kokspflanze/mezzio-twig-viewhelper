@@ -52,6 +52,9 @@ class EnvironmentExtensionDelegatorFactory implements DelegatorFactoryInterface
         /** @var HelperPluginManager $helperPluginManager */
         $helperPluginManager = $container->get(HelperPluginManager::class);
 
+        $config = $container->has('config') ? $container->get('config') : [];
+        $config = $config['templates'] ?? [];
+
         // Configuration
         $resolver = new Resolver\AggregateResolver();
         $resolver->attach(
