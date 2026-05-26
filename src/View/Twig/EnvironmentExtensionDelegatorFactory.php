@@ -32,6 +32,7 @@ use Laminas\View\HelperPluginManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Renderer\RendererInterface;
 use Laminas\View\Resolver;
+use Mezzio\LaminasView\LaminasViewRenderer;
 use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\TwigFunction;
@@ -49,23 +50,15 @@ class EnvironmentExtensionDelegatorFactory implements DelegatorFactoryInterface
         $environment = $callback();
         assert($environment instanceof Environment);
 
+        //get a full loaded php-renderer with all configs
+        $container->get(LaminasViewRenderer::class);
+
         /** @var HelperPluginManager $helperPluginManager */
         $helperPluginManager = $container->get(HelperPluginManager::class);
 
-        $config = $container->has('config') ? $container->get('config') : [];
-        $config = $config['templates'] ?? [];
-
-        // Configuration
-        $resolver = new Resolver\AggregateResolver();
-        $resolver->attach(
-            new Resolver\TemplateMapResolver($config['map'] ?? []),
-            100
-        );
-        
         /** @var RendererInterface $renderer */
         $renderer = $container->get(PhpRenderer::class);
         $renderer->setHelperPluginManager($helperPluginManager);
-        $renderer->setResolver($resolver);
 
         $helperPluginManager->setRenderer($renderer);
 
